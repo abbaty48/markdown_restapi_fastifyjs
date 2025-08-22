@@ -1,4 +1,6 @@
 import fastifyPlugin from "fastify-plugin";
+import { writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import Typojs from "typo-js";
 
 export default fastifyPlugin(async (fastify) => {
@@ -24,6 +26,27 @@ export default fastifyPlugin(async (fastify) => {
       }
       return "You are clean.";
     })
-    .post("/save", async (req) => { })
+    .post("/save", async (req) => {
+      try {
+        const timestamp = new Date(Date.now()).toISOString();
+        const markdown = req.body.note;
+        let filename = req.body.filename
+          .replace(/\s+/g, "-")
+          .toLowerCase()
+          .trim();
+        filename = filename.padStart(
+          filename.length + timestamp.length,
+          timestamp,
+        );
+        filename = filename.padEnd(filename.length + 3, ".md");
+
+        const file = join(process.cwd(), "markdowns", filename);
+        await writeFile(file, markdown, "utf-8");
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+    })
     .post("/render", async (req) => { });
 });
