@@ -2,5 +2,17 @@
   "name": "MARKDOWN_restapi_fastifyjs",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "author": "Abbaty48 <abbaty48@gmail.com>",
+  "license": "MIT",
+  "description": "A simple note-taking app that lets users upload markdown files, check the grammar, save the note, and render it in HTML. The goal of this project is provide a means of handling file uploads in a RESTful API, parse and render markdown files using libraries, and check the grammar of the notes.",
+  "scripts": {
+    "start": "node server.js",
+    "start:dev": "node --watch server.js"
+  }
+  "dependencies": {
+    "fastify": "^5.5.0",
+    "fastify-formidable": "^3.0.2",
+    "fastify-markdown": "^0.4.0",
+    "typo-js": "^1.3.1"
+  }
 }
