@@ -1,5 +1,4 @@
 import Fastify from "fastify";
-import markdown from "fastify-markdown";
 import routerPlugin from "./router.plugin.js";
 
 const app = Fastify({
@@ -10,6 +9,6 @@ const app = Fastify({
   },
 });
 
-app.register(markdown).register(routerPlugin);
+app.register(routerPlugin);
 
 app.listen({ host: "0.0.0.0", port: 4100 });

@@ -1,4 +1,5 @@
 import fastifyPlugin from "fastify-plugin";
+import MarkdownIt from "markdown-it";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import Typojs from "typo-js";
@@ -48,5 +49,9 @@ export default fastifyPlugin(async (fastify) => {
         return false;
       }
     })
-    .post("/render", async (req) => { });
+    .post("/render", async (req) => {
+      const note = req.body.note;
+      const md = new MarkdownIt();
+      return md.render(note);
+    });
 });
