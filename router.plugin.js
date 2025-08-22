@@ -1,12 +1,23 @@
 import fastifyPlugin from "fastify-plugin";
+import { writeFile, opendir } from "node:fs/promises";
 import MarkdownIt from "markdown-it";
-import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import Typojs from "typo-js";
 
 export default fastifyPlugin(async (fastify) => {
   fastify
-    .get("/markdowns", async (req) => { })
+    .get("/markdowns", async (req) => {
+      try {
+        const dirs = [];
+        const dir = await opendir(join(process.cwd(), "markdowns"));
+        for await (const folder of dir) {
+          dirs.push(folder.name);
+        }
+        return dirs;
+      } catch (error) {
+        return [];
+      }
+    })
     .post("/check-grammer", async (req) => {
       const dictionary = new Typojs("en_US");
       const misspells = [];
